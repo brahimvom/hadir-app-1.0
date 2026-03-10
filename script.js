@@ -1,5 +1,5 @@
 // 1. الرابط ديال Google Deployment
-const googleURL = "https://script.google.com/macros/s/AKfycbyWt3vd5w8zaeDM8t5qUUjWj0i0mI6kD5zJbclzwUHB-run10ApP7KMLhCuczQEbkMjFQ/exec";
+const googleURL = "https://script.google.com/macros/s/AKfycbw4MWzgGR_MFzvqFFr8pY1mfEZHuCNe5TucrX09b-g1GBELp51QwFUBlnBBAkQmgYXQXg/exec";
 
 // 2. الدالة اللي كتنفذ ملي كيسكاني الأستاذ الـ QR
 function onScanSuccess(decodedText) {

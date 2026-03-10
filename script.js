@@ -20,7 +20,7 @@ function onScanSuccess(decodedText) {
         let listHTML = `<h2 style="text-align:center;">قائمة القسم: ${decodedText}</h2><ul style="list-style:none; padding:0;">`;
         
         if (students.length === 0) {
-            listHTML += "<li>لا توجد أسماء في هذا القسم!</li>";
+            listHTML += "<li style='text-align:center; padding:20px;'>لا توجد أسماء في هذا القسم!</li>";
         } else {
             students.forEach(name => {
                 listHTML += `
@@ -67,13 +67,16 @@ function sendAttendance(studentName, classId) {
         btn.disabled = false;
         btn.innerText = "حاول مرة أخرى";
     });
-}
+} // <--- هاد القوس كان ناقص عندك!
 
-// 4. إعدادات الكاميرا والماسح
+// 4. إعدادات الكاميرا والماسح (معدل للكاميرا الخلفية)
 const config = { 
     fps: 20, 
     qrbox: { width: 250, height: 250 },
-    aspectRatio: 1.0
+    aspectRatio: 1.0,
+    videoConstraints: {
+        facingMode: "environment" // هادي هي اللي كتشعل كاميرا اللور
+    }
 };
 
 let html5QrcodeScanner = new Html5QrcodeScanner("reader", config, false);

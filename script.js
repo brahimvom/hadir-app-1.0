@@ -61,11 +61,15 @@ function sendAttendance(studentName, classId) {
 }
 
 // إعدادات الكاميرا
-const config = { 
-    fps: 20, 
-    qrbox: { width: 220, height: 220 },
-    aspectRatio: 1.0
-};
-
 let html5QrcodeScanner = new Html5QrcodeScanner("reader", config, false);
-html5QrcodeScanner.render(onScanSuccess);
+
+
+html5QrcodeScanner.render(onScanSuccess, (err) => {
+    
+const html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader", 
+    { 
+        fps: 20, 
+        qrbox: { width: 200, height: 200 }, 
+        aspectRatio: 1.0
+    }

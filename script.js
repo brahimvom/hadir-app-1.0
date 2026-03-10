@@ -1,5 +1,5 @@
 // 1. حط الرابط الجديد ديال الـ Deployment هنا
-const googleURL = "https://script.google.com/macros/s/AKfycbwOspmQ98-lkFN7BDseQcilSSjBjlMLEGtFQnLPlIZHaJrPE8zx0M1BAGBBdIEM5vD6bw/exec";
+const googleURL = "https://script.google.com/macros/s/AKfycbzdSxXcaKUFVwimB0x-nv4llxsDvYSnyKYCu136MEfBSmnmdePMMfScitIJ1Ly9bOTH_w/exec";
 
 function onScanSuccess(decodedText, decodedResult) {
     // توقيف الكاميرا

@@ -69,7 +69,7 @@ html5QrcodeScanner.render(onScanSuccess, (err) => {
 const html5QrcodeScanner = new Html5QrcodeScanner(
     "reader", 
     { 
-        fps: 20, 
+        fps: 60, 
         qrbox: { width: 200, height: 200 }, 
         aspectRatio: 1.0
     }

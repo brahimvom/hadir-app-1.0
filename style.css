@@ -1,0 +1,103 @@
+body {
+    background-color: #0b0e14; 
+    color: #ffffff;           
+    margin: 0;
+    padding: 0;
+}
+
+.top-bar {
+    width: 100%;
+    height: 60px; 
+    background-color: #0b0e14; 
+    border-bottom: 2px solid #c1b9b9; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 0 20px;
+    box-sizing: border-box;
+    position: fixed; 
+    top: 0;
+    left: 0;
+}
+
+.nav-icon {
+    width: 25px;      
+    height: 25px;
+    object-fit: contain;
+    transition: transform 0.2s; 
+}
+
+.icon-link:hover .nav-icon {
+    transform: scale(1.1); 
+    filter: brightness(1.2); 
+}
+
+.icons-container {
+    display: flex;
+    gap: 20px; 
+    align-items: center;
+}
+
+/* إخفاء الأزرار والكتابة الزايدة ديال المكتبة */
+#reader__dashboard_section_csr span, 
+#reader__status_span {
+    display: none !important;
+}
+
+/* تنسيق الحاوية الرئيسية */
+.scanner-wrapper {
+    position: relative;
+    width: 320px;
+    margin: 20px auto;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid rgba(46, 204, 113, 0.3);
+    box-shadow: 0 0 25px rgba(46, 204, 113, 0.1);
+}
+
+/* تنسيق إطار الكاميرا */
+#reader {
+    border: none !important;
+    background: #000 !important;
+}
+
+/* تنسيق الزر (Start/Stop Scanning) */
+#reader button {
+    background: #2ecc71 !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 25px !important;
+    border-radius: 10px !important;
+    font-family: 'Cairo', sans-serif !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 15px auto !important;
+    display: block !important;
+}
+
+#reader button:hover {
+    background: #27ae60 !important;
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+}
+
+/* إضافة خط المسح المتحرك (Laser Line) */
+.scan-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #2ecc71;
+    box-shadow: 0 0 15px #2ecc71;
+    z-index: 10;
+    animation: scan-animation 2s infinite linear;
+    pointer-events: none; /* باش ما يمرضكش فاش تبغي تبرك على الأزرار */
+}
+
+@keyframes scan-animation {
+    0% { top: 0%; }
+    100% { top: 100%; }
+}

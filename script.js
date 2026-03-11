@@ -1,5 +1,5 @@
 // 1. الرابط ديال Google Deployment (تأكدي أنه الرابط الجديد اللي كيسالي بـ exec)
-const googleURL = "https://script.google.com/macros/s/AKfycby8DellFtKQfhaI1P4FO__1CbcH7vn9R8HyeLcHR5DV7TAUvgr_xut_AyUApaOb862zfw/exec";
+const googleURL = "https://script.google.com/macros/s/AKfycbzgKLrjo7HI3LUJIzlf0WsIgWWDO1Tt2x6kD8acsJfRUFLARIV5ACQ37YSkvyjDmThh/exec";
 
 // 2. إعدادات الكاميرا (فرض الكاميرا الخلفية)
 const config = { 

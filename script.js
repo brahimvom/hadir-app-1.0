@@ -1,49 +1,48 @@
-// 1. الرابط ديال Google Deployment (تأكدي أنه الرابط الجديد اللي كيسالي بـ exec)
-const googleURL = "https://script.google.com/macros/s/AKfycbyYQTUHT_CjB5qtA0fLGg1NF3-9J8uLWphMV4Yu4VEe_lbcWwCLsBsU9HswN4HwJ1sP5Q/exec";
+// 1. الرابط ديال Google Deployment (الجديد)
+const googleURL = "https://script.google.com/macros/s/AKfycbycB5l4H-lwHDBTlDfDfvGVBn7bG4iOcBB6nvLg47jFbevgdvybY_T923KyYph40Ou3xQ/exec";
 
-// 2. إعدادات الكاميرا (فرض الكاميرا الخلفية)
+// 2. إعدادات الكاميرا والماسح
 const config = { 
     fps: 20, 
     qrbox: { width: 250, height: 250 },
     aspectRatio: 1.0,
     videoConstraints: {
-        facingMode: "environment" // باش تشعل الكاميرا ديال اللور
+        facingMode: "environment" // استخدام الكاميرا الخلفية
     }
 };
 
 let html5QrcodeScanner = new Html5QrcodeScanner("reader", config, false);
 
-// 3. الدالة اللي كتحل ملي كيسكاني الأستاذ القسم
+// 3. الدالة التي تنفذ عند مسح الـ QR بنجاح
 function onScanSuccess(decodedText) {
     console.log(`تم مسح القسم: ${decodedText}`);
     
-    // توقيف الكاميرا باش نفتحو اللائحة
+    // توقيف السكاير وطلب البيانات
     html5QrcodeScanner.clear().catch(err => console.error("Scanner clear failed", err));
 
-    // جلب الطلاب من Google Sheets
-    fetch(`${googleURL}?action=getStudents&classId=${decodedText}`, {
+    fetch(`${googleURL}?action=getStudents&classId=${encodeURIComponent(decodedText)}`, {
         method: 'GET',
         redirect: 'follow'
     })
     .then(res => res.json())
     .then(students => {
-        // إخفاء الكاميرا وإظهار واجهة الحضور
+        // إخفاء الكاميرا وإظهار قائمة الحضور
         document.getElementById('reader').style.display = 'none';
         const attendanceView = document.getElementById('attendance-view');
         attendanceView.style.display = 'block';
 
-        let listHTML = `<h2 style="text-align:center; color:#2c3e50;">القسم: ${decodedText}</h2>`;
+        let listHTML = `<h2 style="text-align:center; color:#2c3e50;">قائمة: ${decodedText}</h2>`;
         listHTML += `<ul style="list-style:none; padding:0; margin:20px 0;">`;
 
         if (!students || students.length === 0) {
-            listHTML += "<li style='text-align:center; color:red;'>لم يتم العثور على طلاب في هذا القسم!</li>";
+            listHTML += "<li style='text-align:center; color:red; padding:20px;'>⚠️ لم يتم العثور على تلميذ في هذا القسم!</li>";
         } else {
             students.forEach(name => {
                 listHTML += `
                     <li style="padding:15px; border-bottom:1px solid #ddd; display:flex; justify-content:space-between; align-items:center; background:white; margin-bottom:5px; border-radius:8px;">
-                        <span style="font-weight:bold;">${name}</span>
+                        <span style="color: #000000; font-weight: bold; font-size:16px;">${name}</span>
                         <button onclick="sendAttendance('${name}', '${decodedText}')" 
-                                style="background:#e74c3c; color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer;">
+                                style="background:#ff4d4d; color:white; border:none; padding:10px 18px; border-radius:6px; cursor:pointer; font-weight:bold;">
                             تسجيل غياب
                         </button>
                     </li>`;
@@ -51,12 +50,12 @@ function onScanSuccess(decodedText) {
         }
 
         listHTML += `</ul>`;
-        listHTML += `<button onclick="location.reload()" style="width:100%; padding:15px; background:#34495e; color:white; border:none; border-radius:10px; font-size:16px;">رجوع للماسح</button>`;
+        listHTML += `<button onclick="location.reload()" style="width:100%; padding:15px; background:#34495e; color:white; border:none; border-radius:10px; font-size:16px; cursor:pointer;">🔙 رجوع للماسح</button>`;
         
         attendanceView.innerHTML = listHTML;
     })
     .catch(err => {
-        alert("خطأ في الاتصال بجوجل: تأكد من Deployment و 'Anyone'");
+        alert("❌ خطأ في الاتصال: تأكد من إعدادات Google Script");
         console.error(err);
         location.reload();
     });
@@ -67,13 +66,13 @@ function sendAttendance(studentName, classId) {
     const btn = event.target;
     const originalText = btn.innerText;
     
-    btn.innerText = "جاري الحفظ...";
-    btn.style.background = "#bdc3c7";
+    btn.innerText = "جاري الإرسال...";
+    btn.style.background = "#95a5a6";
     btn.disabled = true;
 
     fetch(googleURL, {
         method: 'POST',
-        mode: 'no-cors', // ضرورية لتفادي مشاكل CORS مع Google
+        mode: 'no-cors', 
         body: JSON.stringify({
             student_name: studentName,
             class_id: classId
@@ -81,16 +80,15 @@ function sendAttendance(studentName, classId) {
     })
     .then(() => {
         alert("✅ تم تسجيل غياب: " + studentName);
-        btn.innerText = "تم التسجيل";
+        btn.innerText = "تم التسجيل ✅";
         btn.style.background = "#2ecc71";
     })
     .catch(err => {
-        alert("❌ وقع خطأ أثناء الإرسال");
+        alert("❌ فشل الإرسال");
         btn.disabled = false;
         btn.innerText = originalText;
-        btn.style.background = "#e74c3c";
+        btn.style.background = "#ff4d4d";
     });
 }
 
-// تشغيل السكاير
 html5QrcodeScanner.render(onScanSuccess);

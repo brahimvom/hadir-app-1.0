@@ -1,5 +1,5 @@
 // 1. الرابط ديال Google Deployment
-const googleURL = "https://script.google.com/macros/s/AKfycbzEqOhPOPo5PkzmxEhW0eABifBsS9rxIn_-z-Nu2afCC6_1rWjuiUlaezt-VrRkqEC9mA/exec";
+const googleURL = "https://script.google.com/macros/s/AKfycbycxy_LVVtdyNrvAXuommo-MuQjsV7y4q1uWMnKDYYzyq1JY0YRC3v1fE7bee-1PrgMfg/exec";
 
 // 2. إعدادات الكاميرا
 const config = { 

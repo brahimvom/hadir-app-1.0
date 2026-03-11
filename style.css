@@ -97,6 +97,15 @@ body {
     pointer-events: none; /* باش ما يمرضكش فاش تبغي تبرك على الأزرار */
 }
 
+#attendance-view {
+    background-color: #f4f4f4 !important; /* خلفية الصفحة رمادي فاتح */
+    min-height: 100vh;
+}
+
+#attendance-view h2, #attendance-view span {
+    color: #000000 !important; /* فرض اللون الأسود على أي نص */
+}
+
 @keyframes scan-animation {
     0% { top: 0%; }
     100% { top: 100%; }

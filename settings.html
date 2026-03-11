@@ -3,28 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الدعم الفني</title>
+    <title>مركز الدعم الفني</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; text-align: center; }
-        .form-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; background: #34495e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #eceff1; 
+            padding: 40px 20px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            margin: 0;
+        }
+        .form-container { 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            max-width: 450px; 
+            width: 100%;
+            text-align: center; 
+        }
+        h2 { color: #2c3e50; margin-bottom: 10px; font-size: 24px; }
+        p { color: #7f8c8d; font-size: 15px; margin-bottom: 25px; line-height: 1.6; }
+        
+        input, textarea { 
+            width: 100%; 
+            padding: 14px; 
+            margin: 12px 0; 
+            border: 1px solid #d1d8e0; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            outline: none;
+            transition: border 0.3s;
+            text-align: right;
+        }
+        input:focus, textarea:focus { border: 2px solid #34495e; }
+        
+        button { 
+            width: 100%; 
+            padding: 15px; 
+            background: #34495e; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 18px; 
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
         button:hover { background: #2c3e50; }
+        
+        .footer-note { font-size: 12px; color: #bdc3c7; margin-top: 20px; }
     </style>
 </head>
 <body>
 
     <div class="form-container">
-        <h2>اتصل بنا</h2>
-        <p>صيفط لينا مشكلتك وهتوصلنا فـ Gmail ديريكت.</p>
+        <h2>الدعم الفني والتقني</h2>
+        <p>نحن هنا لمساعدتك. يرجى ملء البيانات أدناه، وسنقوم بالرد عليك عبر البريد الإلكتروني في أقرب وقت ممكن.</p>
         
         <form action="https://formspree.io/f/mbdzokel" method="POST">
             <input type="text" name="name" placeholder="الاسم الكامل" required>
-            <input type="email" name="_replyto" placeholder="إيميلك (باش نجاوبوك)" required>
-            <textarea name="message" rows="5" placeholder="اكتب رسالتك هنا..." required></textarea>
+            <input type="email" name="_replyto" placeholder="البريد الإلكتروني" required>
+            <textarea name="message" rows="5" placeholder="كيف يمكننا مساعدتك؟ (اكتب رسالتك هنا)" required></textarea>
             
-            <button type="submit">إرسال لـ Gmail</button>
+            <button type="submit">إرسال الرسالة</button>
         </form>
+
+        <div class="footer-note">سيتم توجيه رسالتك مباشرة إلى فريق الإدارة.</div>
     </div>
 
 </body>

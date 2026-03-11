@@ -1,83 +1,96 @@
-// 1. الرابط ديال Google Deployment
-const googleURL = "https://script.google.com/macros/s/AKfycbxJJisXDBt8DZv3_sxdOMJ7yyJpFLRGIB_zZWhVFYzyisAWV5LPHFRTGDHU7aiZ-xpZiA/exec";
+// 1. الرابط ديال Google Deployment (تأكدي أنه الرابط الجديد اللي كيسالي بـ exec)
+const googleURL = "https://script.google.com/macros/s/AKfycby8DellFtKQfhaI1P4FO__1CbcH7vn9R8HyeLcHR5DV7TAUvgr_xut_AyUApaOb862zfw/exec";
 
-// 2. الدالة اللي كتنفذ ملي كيسكاني الأستاذ الـ QR
-function onScanSuccess(decodedText) {
-    // توقيف السكاني
-    html5QrcodeScanner.clear();
-    console.log(`تم مسح القسم: ${decodedText}`);
-
-    // جلب السميات من Google Sheets
-    fetch(`${googleURL}?action=getStudents&classId=${decodedText}`)
-    .then(res => res.json())
-    .then(students => {
-        // غبر الكاميرا وبين اللائحة
-        document.getElementById('reader').style.display = 'none';
-        const attendanceView = document.getElementById('attendance-view');
-        attendanceView.style.display = 'block';
-
-        // بناء اللائحة HTML
-        let listHTML = `<h2 style="text-align:center;">قائمة القسم: ${decodedText}</h2><ul style="list-style:none; padding:0;">`;
-        
-        if (students.length === 0) {
-            listHTML += "<li style='text-align:center; padding:20px;'>لا توجد أسماء في هذا القسم!</li>";
-        } else {
-            students.forEach(name => {
-                listHTML += `
-                    <li style="padding:15px; border-bottom:1px solid #444; display:flex; justify-content:space-between; align-items:center;">
-                        <span>${name}</span>
-                        <button onclick="sendAttendance('${name}', '${decodedText}')" 
-                                style="background:#ff4d4d; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">
-                            تسجيل غياب
-                        </button>
-                    </li>`;
-            });
-        }
-        
-        listHTML += `</ul><button onclick="location.reload()" style="margin-top:20px; width:100%; padding:12px; background:#555; color:white; border:none; border-radius:10px;">رجوع للماسح</button>`;
-        attendanceView.innerHTML = listHTML;
-    })
-    .catch(err => {
-        alert("خطأ: تأكد من أن اسم القسم في Google Sheets مطابق للـ QR");
-        console.error(err);
-        location.reload();
-    });
-}
-
-// 3. دالة إرسال الغياب لـ Google Sheets
-function sendAttendance(studentName, classId) {
-    const btn = event.target;
-    btn.innerText = "جاري الإرسال...";
-    btn.style.background = "#888";
-    btn.disabled = true;
-
-    fetch(googleURL, {
-        method: 'POST',
-        mode: 'no-cors', 
-        body: JSON.stringify({
-            student_name: studentName,
-            class_id: classId
-        })
-    }).then(() => {
-        alert("✅ تم تسجيل غياب " + studentName);
-        btn.innerText = "تم التسجيل";
-        btn.style.background = "#2ecc71";
-    }).catch(err => {
-        alert("❌ فشل في الإرسال");
-        btn.disabled = false;
-        btn.innerText = "حاول مرة أخرى";
-    });
-} // <--- هاد القوس كان ناقص عندك!
-
-// 4. إعدادات الكاميرا والماسح (معدل للكاميرا الخلفية)
+// 2. إعدادات الكاميرا (فرض الكاميرا الخلفية)
 const config = { 
     fps: 20, 
     qrbox: { width: 250, height: 250 },
     aspectRatio: 1.0,
     videoConstraints: {
-        facingMode: "environment" // هادي هي اللي كتشعل كاميرا اللور
+        facingMode: "environment" // باش تشعل الكاميرا ديال اللور
     }
 };
 
 let html5QrcodeScanner = new Html5QrcodeScanner("reader", config, false);
+
+// 3. الدالة اللي كتحل ملي كيسكاني الأستاذ القسم
+function onScanSuccess(decodedText) {
+    console.log(`تم مسح القسم: ${decodedText}`);
+    
+    // توقيف الكاميرا باش نفتحو اللائحة
+    html5QrcodeScanner.clear().catch(err => console.error("Scanner clear failed", err));
+
+    // جلب الطلاب من Google Sheets
+    fetch(`${googleURL}?action=getStudents&classId=${decodedText}`, {
+        method: 'GET',
+        redirect: 'follow'
+    })
+    .then(res => res.json())
+    .then(students => {
+        // إخفاء الكاميرا وإظهار واجهة الحضور
+        document.getElementById('reader').style.display = 'none';
+        const attendanceView = document.getElementById('attendance-view');
+        attendanceView.style.display = 'block';
+
+        let listHTML = `<h2 style="text-align:center; color:#2c3e50;">القسم: ${decodedText}</h2>`;
+        listHTML += `<ul style="list-style:none; padding:0; margin:20px 0;">`;
+
+        if (!students || students.length === 0) {
+            listHTML += "<li style='text-align:center; color:red;'>لم يتم العثور على طلاب في هذا القسم!</li>";
+        } else {
+            students.forEach(name => {
+                listHTML += `
+                    <li style="padding:15px; border-bottom:1px solid #ddd; display:flex; justify-content:space-between; align-items:center; background:white; margin-bottom:5px; border-radius:8px;">
+                        <span style="font-weight:bold;">${name}</span>
+                        <button onclick="sendAttendance('${name}', '${decodedText}')" 
+                                style="background:#e74c3c; color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer;">
+                            تسجيل غياب
+                        </button>
+                    </li>`;
+            });
+        }
+
+        listHTML += `</ul>`;
+        listHTML += `<button onclick="location.reload()" style="width:100%; padding:15px; background:#34495e; color:white; border:none; border-radius:10px; font-size:16px;">رجوع للماسح</button>`;
+        
+        attendanceView.innerHTML = listHTML;
+    })
+    .catch(err => {
+        alert("خطأ في الاتصال بجوجل: تأكد من Deployment و 'Anyone'");
+        console.error(err);
+        location.reload();
+    });
+}
+
+// 4. دالة إرسال الغياب لـ Google Sheets
+function sendAttendance(studentName, classId) {
+    const btn = event.target;
+    const originalText = btn.innerText;
+    
+    btn.innerText = "جاري الحفظ...";
+    btn.style.background = "#bdc3c7";
+    btn.disabled = true;
+
+    fetch(googleURL, {
+        method: 'POST',
+        mode: 'no-cors', // ضرورية لتفادي مشاكل CORS مع Google
+        body: JSON.stringify({
+            student_name: studentName,
+            class_id: classId
+        })
+    })
+    .then(() => {
+        alert("✅ تم تسجيل غياب: " + studentName);
+        btn.innerText = "تم التسجيل";
+        btn.style.background = "#2ecc71";
+    })
+    .catch(err => {
+        alert("❌ وقع خطأ أثناء الإرسال");
+        btn.disabled = false;
+        btn.innerText = originalText;
+        btn.style.background = "#e74c3c";
+    });
+}
+
+// تشغيل السكاير
 html5QrcodeScanner.render(onScanSuccess);

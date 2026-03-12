@@ -63,8 +63,8 @@ body {
 
 /* تنسيق الزر (Start/Stop Scanning) */
 #reader button {
-    background: #2ecc71 !important;
-    color: white !important;
+    background: #1c0755 !important;
+    color: rgb(255, 255, 255) !important;
     border: none !important;
     padding: 12px 25px !important;
     border-radius: 10px !important;
@@ -76,7 +76,7 @@ body {
     transition: 0.3s;
     margin: 15px auto !important;
     display: block !important;
-}
+    ;
 
 #reader button:hover {
     background: #27ae60 !important;

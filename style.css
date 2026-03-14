@@ -38,13 +38,13 @@ body {
     align-items: center;
 }
 
-/* إخفاء الأزرار والكتابة الزايدة ديال المكتبة */
+
 #reader__dashboard_section_csr span, 
 #reader__status_span {
     display: none !important;
 }
 
-/* تنسيق الحاوية الرئيسية */
+
 .scanner-wrapper {
     position: relative;
     width: 320px;
@@ -55,13 +55,13 @@ body {
     box-shadow: 0 0 25px rgba(46, 204, 113, 0.1);
 }
 
-/* تنسيق إطار الكاميرا */
+/* cader cam */
 #reader {
     border: none !important;
     background: #000 !important;
 }
 
-/* تنسيق الزر (Start/Stop Scanning) */
+/* button dyaaal (Start/Stop Scanning) */
 #reader button {
     background: #1c0755 !important;
     color: rgb(255, 255, 255) !important;
@@ -82,8 +82,7 @@ body {
     background: #27ae60 !important;
     box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
 }
-
-/* إضافة خط المسح المتحرك (Laser Line) */
+ 
 .scan-overlay {
     position: absolute;
     top: 0;
@@ -94,16 +93,16 @@ body {
     box-shadow: 0 0 15px #2ecc71;
     z-index: 10;
     animation: scan-animation 2s infinite linear;
-    pointer-events: none; /* باش ما يمرضكش فاش تبغي تبرك على الأزرار */
+    pointer-events: none; 
 }
 
 #attendance-view {
-    background-color: #f4f4f4 !important; /* خلفية الصفحة رمادي فاتح */
+    background-color: #f4f4f4 !important; 
     min-height: 100vh;
 }
 
 #attendance-view h2, #attendance-view span {
-    color: #000000 !important; /* فرض اللون الأسود على أي نص */
+    color: #000000 !important; /*had lktba li helkatni f se7ti*/
 }
 
 @keyframes scan-animation {

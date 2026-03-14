@@ -1,7 +1,7 @@
-// 1. الرابط ديال Google Deployment
+
 const googleURL = "https://script.google.com/macros/s/AKfycbycxy_LVVtdyNrvAXuommo-MuQjsV7y4q1uWMnKDYYzyq1JY0YRC3v1fE7bee-1PrgMfg/exec";
 
-// 2. إعدادات الكاميرا
+
 const config = { 
     fps: 20, 
     qrbox: { width: 250, height: 250 },
@@ -13,7 +13,7 @@ const config = {
 
 let html5QrcodeScanner = new Html5QrcodeScanner("reader", config, false);
 
-// 3. دالة معالجة الـ QR
+
 function onScanSuccess(decodedText) {
     console.log(`تم مسح القسم: ${decodedText}`);
     html5QrcodeScanner.clear().catch(err => console.error(err));
@@ -28,7 +28,7 @@ function onScanSuccess(decodedText) {
         const attendanceView = document.getElementById('attendance-view');
         attendanceView.style.display = 'block';
 
-        // الستايل ديال العنوان بالكحل
+        //nigga 
         let listHTML = `<h2 style="text-align:center; color:#000000 !important; margin-bottom:20px;">القسم: ${decodedText}</h2>`;
         listHTML += `<ul style="list-style:none; padding:0; margin:0;">`;
 
@@ -58,7 +58,7 @@ function onScanSuccess(decodedText) {
     });
 }
 
-// 4. دالة إرسال الغياب
+// function li tatsift lghyab l goooooogl sheet
 function sendAttendance(studentName, classId) {
     const btn = event.target;
     btn.innerText = "جاري الحفظ...";
@@ -74,13 +74,13 @@ function sendAttendance(studentName, classId) {
         })
     })
     .then(() => {
-        alert("✅ تم تسجيل غياب: " + studentName);
+        alert(" تم تسجيل غياب: " + studentName);
         btn.innerText = "تم بنجاح";
         btn.style.background = "#2ecc71";
         btn.style.color = "#ffffff";
     })
     .catch(err => {
-        alert("❌ فشل الإرسال");
+        alert(" فشل الإرسال");
         btn.disabled = false;
         btn.innerText = "حاول مرة أخرى";
     });
